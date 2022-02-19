@@ -10,7 +10,7 @@ import (
 )
 
 func serveWs(pool *websocket.Pool, w http.ResponseWriter, r *http.Request) {
-	fmt.Println("WebSocket Endpoint Hit")
+	fmt.Println("WebSocket connect!")
 	conn, err := websocket.Upgrade(w, r)
 	if err != nil {
 		fmt.Fprintf(w, "%+v\n", err)
@@ -41,18 +41,17 @@ func setupRoutes() {
 	})
 
 	http.Handle("/", http.FileServer(http.Dir("./public")))
-	http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
-		http.Error(w, "Not Found", http.StatusNotFound)
-	})
 }
 
 func main() {
+	fmt.Println("Multidraw v0.2")
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
 
-	fmt.Println("Multidraw start v0.1")
 	setupRoutes()
+
 	http.ListenAndServe(":"+port, nil)
 }
