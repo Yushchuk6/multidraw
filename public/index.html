@@ -22,7 +22,7 @@
       const clientMap = new Map();
       const id = uuidv4();
 
-      let socket = new WebSocket("ws://localhost:8080/ws");
+      let socket = new WebSocket(location.protocol.replace("http","ws") + "//" + location.host + "/ws");
       console.log("Attempting Connection...");
 
       socket.onopen = () => {
