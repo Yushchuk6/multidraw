@@ -4,46 +4,18 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
     <script src="https://unpkg.com/uuid@latest/dist/umd/uuidv4.min.js"></script>
-    <script type="text/javascript" src="draw.js"></script>
-    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="js/draw.js"></script>
+    <script type="module" src="js/mouse.js"></script>
+    <script type="module" src="js/websocket.js"></script>
+    <script type="module" src="js/index.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <title>MultiDraw</title>
   </head>
 
   <body>
     <div class="canvas-wrap">
       <canvas id="canvas"></canvas>
     </div>
-    <script>
-      const canvas = document.getElementById("canvas");
-      canvas.width = canvas.clientWidth;
-      canvas.height = canvas.clientHeight;
-
-      const clientMap = new Map();
-      const id = uuidv4();
-
-      let socket = new WebSocket(location.protocol.replace("http","ws") + "//" + location.host + "/ws");
-      console.log("Attempting Connection...");
-
-      socket.onopen = () => {
-        console.log("Successfully Connected");
-        socket.send(id);
-      };
-
-      socket.onclose = (event) => {
-        console.log("Socket Closed Connection: ", event);
-      };
-
-      socket.onmessage = (message) => {
-        console.log("Message: ", message);
-        drawPointList(canvas.getContext("2d"), id, clientMap, JSON.parse(message.data));
-      };
-
-      socket.onerror = (error) => {
-        console.log("Socket Error: ", error);
-      };
-
-      setup(canvas, socket);
-    </script>
   </body>
 </html>
