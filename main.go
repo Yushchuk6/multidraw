@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/Yushchuk6/multidraw/pkg/websocket"
 )
@@ -41,7 +42,12 @@ func setupRoutes() {
 }
 
 func main() {
-	fmt.Println("Distributed Chat App v0.01")
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
+
+	fmt.Println("Multidraw start v0.1")
 	setupRoutes()
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":"+port, nil)
 }
